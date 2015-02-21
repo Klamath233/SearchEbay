@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="src" path="src"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+	<classpathentry kind="lib" path="/usr/local/Cellar/tomcat7/7.0.57/libexec/lib/annotations-api.jar"/>
+	<classpathentry kind="lib" path="/usr/local/Cellar/tomcat7/7.0.57/libexec/lib/catalina-ant.jar"/>
+	<classpathentry kind="lib" path="/usr/local/Cellar/tomcat7/7.0.57/libexec/lib/catalina-ha.jar"/>
+	<classpathentry kind="lib" path="/usr/local/Cellar/tomcat7/7.0.57/libexec/lib/catalina-tribes.jar"/>
+	<classpathentry kind="lib" path="/usr/local/Cellar/tomcat7/7.0.57/libexec/lib/catalina.jar"/>
+	<classpathentry kind="lib" path="/usr/local/Cellar/tomcat7/7.0.57/libexec/lib/ecj-4.4.jar"/>
+	<classpathentry kind="lib" path="/usr/local/Cellar/tomcat7/7.0.57/libexec/lib/el-api.jar"/>
+	<classpathentry kind="lib" path="/usr/local/Cellar/tomcat7/7.0.57/libexec/lib/jasper-el.jar"/>
+	<classpathentry kind="lib" path="/usr/local/Cellar/tomcat7/7.0.57/libexec/lib/jasper.jar"/>
+	<classpathentry kind="lib" path="/usr/local/Cellar/tomcat7/7.0.57/libexec/lib/jsp-api.jar"/>
+	<classpathentry kind="lib" path="/usr/local/Cellar/tomcat7/7.0.57/libexec/lib/servlet-api.jar"/>
+	<classpathentry kind="lib" path="/usr/local/Cellar/tomcat7/7.0.57/libexec/lib/tomcat-api.jar"/>
+	<classpathentry kind="lib" path="/usr/local/Cellar/tomcat7/7.0.57/libexec/lib/tomcat-coyote.jar"/>
+	<classpathentry kind="lib" path="/usr/local/Cellar/tomcat7/7.0.57/libexec/lib/tomcat-dbcp.jar"/>
+	<classpathentry kind="lib" path="/usr/local/Cellar/tomcat7/7.0.57/libexec/lib/tomcat-i18n-es.jar"/>
+	<classpathentry kind="lib" path="/usr/local/Cellar/tomcat7/7.0.57/libexec/lib/tomcat-i18n-fr.jar"/>
+	<classpathentry kind="lib" path="/usr/local/Cellar/tomcat7/7.0.57/libexec/lib/tomcat-i18n-ja.jar"/>
+	<classpathentry kind="lib" path="/usr/local/Cellar/tomcat7/7.0.57/libexec/lib/tomcat-jdbc.jar"/>
+	<classpathentry kind="lib" path="/usr/local/Cellar/tomcat7/7.0.57/libexec/lib/tomcat-util.jar"/>
+	<classpathentry kind="lib" path="/usr/local/Cellar/tomcat7/7.0.57/libexec/lib/tomcat7-websocket.jar"/>
+	<classpathentry kind="lib" path="/usr/local/Cellar/tomcat7/7.0.57/libexec/lib/websocket-api.jar"/>
+	<classpathentry kind="lib" path="/usr/local/Cellar/tomcat7/7.0.57/libexec/webapps/axis2.war"/>
+	<classpathentry kind="output" path="build/WEB-INF/classes"/>
+</classpath>
