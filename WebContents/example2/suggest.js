@@ -12,7 +12,7 @@ function StateSuggestions() {
 StateSuggestions.prototype.requestSuggestions = function (oAutoSuggestControl /*:AutoSuggestControl*/,
                                                           bTypeAhead /*:boolean*/) {
 	var sTextboxValue = oAutoSuggestControl.textbox.value;
-    var request = "suggest?q=" + encodeURI(sTextboxValue);
+    var request = "../suggest?q=" + encodeURI(sTextboxValue);
 
     xmlHttp.open("GET", request);
     xmlHttp.onreadystatechange = this.showSuggestion(oAutoSuggestControl, bTypeAhead);
