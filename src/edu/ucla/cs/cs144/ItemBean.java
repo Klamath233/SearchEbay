@@ -1,11 +1,18 @@
 package edu.ucla.cs.cs144;
 
 import java.io.Serializable;
+import java.util.List;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.ArrayList;
+import java.util.Date;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.text.ParseException;
 
 public class ItemBean implements Serializable {
 
-	class BidBean {
+	public class BidBean {
 		protected String bidderId;
 		protected int bidderRating;
 		protected String bidderLocation;
@@ -123,6 +130,25 @@ public class ItemBean implements Serializable {
 	}
 
 	public ArrayList<BidBean> getBids() {
+		Collections.sort(bids, new Comparator<BidBean>() {
+			public int compare(BidBean b1, BidBean b2) {
+				Date d1;
+				Date d2;
+				try {
+					d1 = new SimpleDateFormat("MMM-dd-yy HH:mm:ss").parse(b1.getBidTime());
+				} catch (ParseException e) {
+					return 1;
+				}
+				
+				try {
+					d2 = new SimpleDateFormat("MMM-dd-yy HH:mm:ss").parse(b2.getBidTime());
+				} catch (ParseException e) {
+					return -1;
+				}
+				
+				return d2.compareTo(d1);
+			}
+		});
 		return bids;
 	}
 

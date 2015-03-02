@@ -17,7 +17,7 @@
   <body>
     <div class="wrapper">
       <div class="col">
-        <img src="img/logo.png">
+        <a href="keywordSearch.html"><img src="img/logo.png"></a>
         <table>
         <%
           SearchResult[] srArray = (SearchResult[]) request.getAttribute("basicSearchResult");
