@@ -27,9 +27,9 @@ var geocoder;
 var map;
 function initialize() {
   geocoder = new google.maps.Geocoder();
-  var latlng = new google.maps.LatLng(34.063509,-118.44541);
+  var latlng = new google.maps.LatLng(41.850033, -87.6500523);
   var mapOptions = {
-    zoom: 14,
+    zoom: 4,
     center: latlng
   }
   map = new google.maps.Map(document.getElementById('map-canvas'), mapOptions);

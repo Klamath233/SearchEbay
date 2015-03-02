@@ -31,24 +31,18 @@ public class ItemServlet extends HttpServlet implements Servlet {
     	} catch (Exception e) {
     		e.printStackTrace();
     	}
-    	
+
+        if (doc == null) { return null; }
     	Element item = doc.getDocumentElement(); // the root element.
+
     	String itemId = item.getAttribute("ItemID");
     	NodeList name = item.getElementsByTagName("Name");
-    	NodeList categories = item.getElementsByTagName("Categories");
+    	NodeList categories = item.getElementsByTagName("Category");
     	NodeList currently = item.getElementsByTagName("Currently");
     	NodeList buyPriceOptional = item.getElementsByTagName("Buy_Price");
     	NodeList firstBid = item.getElementsByTagName("First_Bid");
-    	NodeList bids = item.getElementsByTagName("Bids");
+    	NodeList bids = item.getElementsByTagName("Bids").item(0).getChildNodes();
     	NodeList location = item.getElementsByTagName("Location");
-    	if (location.item(0).getAttributes().getNamedItem("Latitude") != null) {
-    		String latitudeOptional = location.item(0).getAttributes().getNamedItem("Latitude").getNodeValue();
-    	}
-    	
-    	if (location.item(0).getAttributes().getNamedItem("Longitude") != null) {
-    		String longitudeOptional = location.item(0).getAttributes().getNamedItem("Longitude").getNodeValue();
-    	}
-    	
     	NodeList country = item.getElementsByTagName("Country");
     	NodeList started = item.getElementsByTagName("Started");
     	NodeList ends = item.getElementsByTagName("Ends");
@@ -58,6 +52,16 @@ public class ItemServlet extends HttpServlet implements Servlet {
     	NodeList description = item.getElementsByTagName("Description");
     	
     	ItemBean itemBean = new ItemBean();
+
+        if (location.item(0).getAttributes().getNamedItem("Latitude") != null) {
+            String latitudeOptional = location.item(0).getAttributes().getNamedItem("Latitude").getNodeValue();
+            itemBean.setLatitude(latitudeOptional);
+        }
+        
+        if (location.item(0).getAttributes().getNamedItem("Longitude") != null) {
+            String longitudeOptional = location.item(0).getAttributes().getNamedItem("Longitude").getNodeValue();
+            itemBean.setLongitude(longitudeOptional);
+        }
     	
     	ArrayList<String> categoryList = new ArrayList<String>();
     	for (int i = 0; i < categories.getLength(); i++) {
@@ -67,30 +71,33 @@ public class ItemServlet extends HttpServlet implements Servlet {
     	
     	ArrayList<ItemBean.BidBean> bidList = new ArrayList<ItemBean.BidBean>();
     	for (int i = 0; i < bids.getLength(); i++) {
-    		if (bids.item(i).getClass() == Element.class) {
-	    		Element currentBid = (Element) bids.item(i);
-	    		ItemBean.BidBean bidBean = itemBean.new BidBean();
-	    		
-	    		bidBean.setBidAmount(currentBid.getElementsByTagName("Amount").item(0).getTextContent());
-	    		bidBean.setBidTime(currentBid.getElementsByTagName("Time").item(0).getTextContent());
-	    		
-	    		NodeList bidder = currentBid.getElementsByTagName("Bidder");
-	    		bidBean.setBidderId(bidder.item(0).getAttributes().getNamedItem("UserID").getNodeValue());
-	    		bidBean.setBidderRating(Integer.parseInt(bidder.item(0).getAttributes().getNamedItem("Rating").getNodeValue()));
-	    		
-	    		NodeList bidderLocation = ((Element) bidder.item(0)).getElementsByTagName("Location");
-	    		if (bidderLocation.getLength() == 0) {
-	    			bidBean.setBidderLocation("");
-	    		}
-	    		
-	    		NodeList bidderCountry = ((Element) bidder.item(0)).getElementsByTagName("Country");
-	    		if (bidderCountry.getLength() == 0) {
-	    			bidBean.setBidderCountry("");
-	    		}
-	    		
-	    		bidList.add(bidBean);
-    		}
+    		Element currentBid = (Element) bids.item(i);
+    		ItemBean.BidBean bidBean = itemBean.new BidBean();
+    		
+    		bidBean.setBidAmount(currentBid.getElementsByTagName("Amount").item(0).getTextContent());
+    		bidBean.setBidTime(currentBid.getElementsByTagName("Time").item(0).getTextContent());
+    		
+    		NodeList bidder = currentBid.getElementsByTagName("Bidder");
+    		bidBean.setBidderId(bidder.item(0).getAttributes().getNamedItem("UserID").getNodeValue());
+    		bidBean.setBidderRating(Integer.parseInt(bidder.item(0).getAttributes().getNamedItem("Rating").getNodeValue()));
+    		
+    		NodeList bidderLocation = ((Element) bidder.item(0)).getElementsByTagName("Location");
+    		if (bidderLocation.getLength() == 0) {
+    			bidBean.setBidderLocation("N/A");
+    		} else {
+                bidBean.setBidderLocation(bidderLocation.item(0).getTextContent());
+            }
+    		
+    		NodeList bidderCountry = ((Element) bidder.item(0)).getElementsByTagName("Country");
+    		if (bidderCountry.getLength() == 0) {
+    			bidBean.setBidderCountry("N/A");
+    		} else {
+                bidBean.setBidderCountry(bidderCountry.item(0).getTextContent());
+            }
+    		
+    		bidList.add(bidBean);
     	}
+        itemBean.setBids(bidList);
     	
     	itemBean.setItemId(itemId);
     	itemBean.setName(name.item(0).getTextContent());
@@ -101,9 +108,11 @@ public class ItemServlet extends HttpServlet implements Servlet {
     	itemBean.setStarted(started.item(0).getTextContent());
     	itemBean.setEnds(ends.item(0).getTextContent());
     	itemBean.setDescription(description.item(0).getTextContent());
+        itemBean.setSellerId(sellerId);
+        itemBean.setSellerRating(sellerRating);
     	
     	if (buyPriceOptional.getLength() == 0) {
-    		itemBean.setBuyPrice("");
+    		itemBean.setBuyPrice("N/A");
     	} else {
     		itemBean.setBuyPrice(buyPriceOptional.item(0).getTextContent());
     	}
@@ -120,12 +129,14 @@ public class ItemServlet extends HttpServlet implements Servlet {
          */
 
         String itemId = request.getParameter("id");
-
         String xml = AuctionSearchClient.getXMLDataForItemId(itemId);
         ItemBean itemBean = parseXMLString(xml);
-        
-        request.setAttribute("item", itemBean);
-        request.getRequestDispatcher("/getItemResult.jsp").forward(request, response);
+        if (itemBean == null) {
+            request.getRequestDispatcher("/getItem.html").forward(request, response);
+        } else {
+            request.setAttribute("item", itemBean);
+            request.getRequestDispatcher("/getItemResult.jsp").forward(request, response);
+        }
         
     }
     

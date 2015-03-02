@@ -1,0 +1,16 @@
+.col {
+	vertical-align: top;
+}
+
+#map-canvas {
+	width: 500px;
+	height: 500px;
+}
+
+table > tbody > tr > td:first-child {
+	width: 250px;
+}
+
+table > tbody > tr > td:nth-child(2) {
+	width: 250px;
+}
